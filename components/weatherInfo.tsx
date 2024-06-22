@@ -1,11 +1,56 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 
-const WeatherInfo = () => {
+type weatherDataProps = {
+    base: string;
+    clouds: {
+        all: number;
+    };
+    cod: number;
+    coord: {
+        lat: number;
+        lon: number;
+    };
+    dt: number;
+    id: number;
+    main: {
+        feels_like: number;
+        humidity: number;
+        pressure: number;
+        temp: string;
+        temp_max: number;
+        temp_min: number;
+    };
+    name: string;
+    sys: {
+        country: string;
+        id: number;
+        sunrise: number;
+        sunset: number;
+        type: number;
+    };
+    timezone: number;
+    visibility: string;
+    weather: Array<{
+        description: string;
+        icon: string;
+        id: number;
+        main: string;
+    }>;
+    wind: {
+        deg: number;
+        speed: number;
+    };
+}
+interface IWeatherData {
+    weatherData: weatherDataProps | undefined;
+}
+
+const WeatherInfo = ({weatherData} : IWeatherData) => {
     return (
         <View style={styles.marginTop20}>
-            <Text style={styles.text}>The weather of Jakarta</Text>
-            <Text style={[styles.temperature, styles.marginTop20]}>15 C</Text>
+            <Text style={styles.text}>The weather of {weatherData?.name}</Text>
+            <Text style={[styles.temperature, styles.marginTop20]}>{weatherData?.main.temp}C</Text>
             <View style={[styles.rowContainer, styles.marginTop20]}>
                 <Image
                     source={{ uri: 'https://openweathermap.org/img/w/04d.png' }}
@@ -16,11 +61,11 @@ const WeatherInfo = () => {
             <Text style={styles.text}>overcast clouds</Text>
             <View style={[styles.rowContainer, styles.marginTop20]}>
                 <Text style={[styles.text, styles.bold]}>Visibility :</Text>
-                <Text style={[styles.text, styles.marginLeft15]}>10 km</Text>
+                <Text style={[styles.text, styles.marginLeft15]}>{weatherData?.visibility}km</Text>
             </View>
             <View style={[styles.rowContainer, styles.marginTop20]}>
                 <Text style={[styles.text, styles.bold]}>Wind Speed :</Text>
-                <Text style={[styles.text, styles.marginLeft15]}>10 m/s</Text>
+                <Text style={[styles.text, styles.marginLeft15]}>{weatherData?.wind.speed}m/s</Text>
             </View>
         </View>
     )
